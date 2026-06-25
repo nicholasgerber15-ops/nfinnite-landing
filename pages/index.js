@@ -194,9 +194,9 @@ export default function Home() {
             </a>
           </div>
           <div className="mt-16 grid grid-cols-3 gap-8 border-t border-white/5 pt-10 text-center sm:grid-cols-3">
-            <div><div className="text-3xl font-bold text-white">11</div><div className="mt-1 text-xs text-zinc-500">Stand-alone Services</div></div>
+            <div><div className="text-3xl font-bold text-white">$49,999</div><div className="mt-1 text-xs text-zinc-500">Own Forever</div></div>
+            <div><div className="text-3xl font-bold text-yellow-400">$198K</div><div className="mt-1 text-xs text-zinc-500">Elon's Groq Pledge</div></div>
             <div><div className="text-3xl font-bold text-green-400">100%</div><div className="mt-1 text-xs text-zinc-500">Private · No Cloud</div></div>
-            <div><div className="text-3xl font-bold text-white">$4,999</div><div className="mt-1 text-xs text-zinc-500">Own Forever</div></div>
           </div>
         </div>
       </section>
@@ -393,18 +393,23 @@ export default function Home() {
             </div>
             <div className="rounded-xl border border-aion/20 bg-aion/[0.03] p-5">
               <div className="text-xs text-zinc-500 uppercase mb-1">Aion Upfront</div>
-              <div className="text-2xl font-bold text-green-400">$4,999</div>
-              <div className="text-xs text-zinc-600 mt-1">One-time · Perpetual license</div>
+              <div className="text-2xl font-bold text-green-400">$49,999</div>
+              <div className="text-xs text-zinc-600 mt-1">One-time · Perpetual · Self-hosted</div>
             </div>
             <div className="rounded-xl border border-white/5 bg-[#12121a] p-5">
               <div className="text-xs text-zinc-500 uppercase mb-1">Break-even</div>
-              <div className="text-2xl font-bold text-aion-light">12.3 months</div>
-              <div className="text-xs text-zinc-600 mt-1">After that, Aion is free</div>
+              <div className="text-2xl font-bold text-aion-light">8.3 years</div>
+              <div className="text-xs text-zinc-600 mt-1">vs $500/mo enterprise AI tools</div>
             </div>
             <div className="rounded-xl border border-white/5 bg-[#12121a] p-5">
-              <div className="text-xs text-zinc-500 uppercase mb-1">5-Year Savings</div>
-              <div className="text-2xl font-bold text-green-400">$19,301</div>
-              <div className="text-xs text-zinc-600 mt-1">vs $24,300 for competitors</div>
+              <div className="text-xs text-zinc-500 uppercase mb-1">10-Year Savings</div>
+              <div className="text-2xl font-bold text-green-400">$10,001</div>
+              <div className="text-xs text-zinc-600 mt-1">$60,000 vs $49,999 after a decade</div>
+            </div>
+            <div className="rounded-xl border border-white/5 bg-[#12121a] p-5">
+              <div className="text-xs text-zinc-500 uppercase mb-1">Elon's Groq Pledge</div>
+              <div className="text-2xl font-bold text-yellow-400">$198,000</div>
+              <div className="text-xs text-zinc-600 mt-1">For extra API calls alone</div>
             </div>
           </div>
         </div>
@@ -425,11 +430,11 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-white">Aion Complete</h3>
               <p className="mt-2 text-zinc-400">All-inclusive subscription</p>
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-5xl font-black text-white">$299</span>
+                <span className="text-5xl font-black text-white">$1,499</span>
                 <span className="text-zinc-500">/mo</span>
               </div>
               <ul className="mt-8 space-y-3">
-                {["All 11 services · full access", "Unlimited API calls", "Priority GPU compute", "Dedicated inference endpoints", "On-chain DNFT minting", "Priority support & onboarding", "Weekly model updates", "Custom LoRA training included", "SLA guarantee 99.9% uptime"].map((f) => (
+                {["All 11 services · full access", "Unlimited API calls", "Priority GPU compute", "Dedicated inference endpoints", "On-chain DNFT minting", "Custom model training included", "Priority support & onboarding", "Weekly model updates", "Self-hosted · 100% private", "SLA guarantee 99.9% uptime"].map((f) => (
                   <li key={f} className="flex items-start gap-3 text-sm text-zinc-300">
                     <span className="mt-0.5 text-aion">✓</span> {f}
                   </li>
@@ -444,11 +449,11 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-white">Aion Perpetual</h3>
               <p className="mt-2 text-zinc-400">Pay once, own forever</p>
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-5xl font-black text-white">$4,999</span>
+                <span className="text-5xl font-black text-white">$49,999</span>
                 <span className="text-zinc-500">one-time</span>
               </div>
               <ul className="mt-8 space-y-3">
-                {["All 11 services · perpetual", "500K API calls / year", "Standard GPU compute", "Self-hostable runtime", "On-chain DNFT minting", "Email support", "Major version upgrades (1yr)", "Community Discord access", "Commercial license included"].map((f) => (
+                {["All 11 services · perpetual", "Unlimited API calls", "Priority GPU compute", "Self-hosted · air-gap capable", "Custom model training included", "On-chain DNFT minting", "Concierge onboarding", "Major version upgrades (lifetime)", "Commercial license included", "White-label branding"].map((f) => (
                   <li key={f} className="flex items-start gap-3 text-sm text-zinc-300">
                     <span className="mt-0.5 text-aion-light">✓</span> {f}
                   </li>
