@@ -12,6 +12,8 @@ const services = [
     name: "Aether",
     tagline: "Creative Generation Engine",
     desc: "Generate images, video, music, voice, and content with intent-routing AI copilot. Per-service LoRA adapters for style control.",
+    price: "$199",
+    comp: "vs $470 Midjourney + ElevenLabs + Runway",
     port: ":3002",
     sub: "aether.nfinnite.ai",
     href: "https://aether.nfinnite.ai",
@@ -23,6 +25,8 @@ const services = [
     name: "Vortex",
     tagline: "Chat & Gaming Runtime",
     desc: "Multi-model reasoning at edge + cluster. Real-time chat, game logic, and agent coordination with streaming inference.",
+    price: "$49",
+    comp: "vs $20 ChatGPT + $20 Claude",
     port: ":3003",
     sub: "vortex.nfinnite.ai",
     href: "https://vortex.nfinnite.ai",
@@ -34,6 +38,8 @@ const services = [
     name: "Atom",
     tagline: "Core Runtime & Mesh Networking",
     desc: "Distributed runtime integration layer. Mesh networking, service discovery, and inter-process communication.",
+    price: "$99",
+    comp: "vs $200 Kong + $150 Consul",
     port: ":3009",
     sub: "atom.nfinnite.ai",
     href: "https://atom.nfinnite.ai",
@@ -45,6 +51,8 @@ const services = [
     name: "Warden",
     tagline: "Cybersecurity & Threat Analysis",
     desc: "LLM-powered threat detection, authentication, access control, and real-time security monitoring.",
+    price: "$149",
+    comp: "vs $300 CrowdStrike + Splunk",
     port: ":3007",
     sub: "warden.nfinnite.ai",
     href: "https://warden.nfinnite.ai",
@@ -56,6 +64,8 @@ const services = [
     name: "Foundry",
     tagline: "Model Training & Fusion",
     desc: "LoRA trainer, data forge pipeline, model fusion studio. Train, merge, and optimize custom AI models.",
+    price: "$299",
+    comp: "vs $500 Replicate + AWS SageMaker",
     port: ":3010",
     sub: "foundry.nfinnite.ai",
     href: "https://foundry.nfinnite.ai",
@@ -67,6 +77,8 @@ const services = [
     name: "Forge",
     tagline: "Billing, Ops & Compliance",
     desc: "Multi-tenant subscription management, billing engine, compliance tracking, and operational dashboards.",
+    price: "$99",
+    comp: "vs $599 Chargebee + Stripe",
     port: ":3004",
     sub: "forge.nfinnite.ai",
     href: "https://forge.nfinnite.ai",
@@ -77,7 +89,9 @@ const services = [
     icon: "💹",
     name: "Axis",
     tagline: "Trading & Risk Platform",
-    desc: "ML-powered market analysis, prediction markets, portfolio optimization, and automated trading strategies. Live mission control.",
+    desc: "ML-powered market analysis, prediction markets, portfolio optimization, and automated trading strategies.",
+    price: "$149",
+    comp: "vs $2,000 Bloomberg Terminal",
     port: ":3001",
     sub: "axis.nfinnite.ai",
     href: "/axis/",
@@ -88,7 +102,9 @@ const services = [
     icon: "⚡",
     name: "Cluster",
     tagline: "GPU Inference Network",
-    desc: "RTX 4090 inference nodes. Mistral Nemo 24B, SVD, SDXL, Whisper, QLoRA — available as a distributed compute mesh.",
+    desc: "RTX 4090 inference nodes. Mistral Nemo 24B, SVD, SDXL, Whisper, QLoRA — distributed compute mesh.",
+    price: "$199",
+    comp: "vs $540 RunPod + Lambda Labs",
     port: ":8000-8020",
     sub: "cluster.nfinnite.ai",
     href: "https://cluster.nfinnite.ai",
@@ -100,6 +116,8 @@ const services = [
     name: "Aion Chain",
     tagline: "L1 for AI-Native Assets",
     desc: "DPoS consensus, 50K TPS, 0.5s block time. AI-native smart contracts, DNFT minting, cross-chain bridges.",
+    price: "$99",
+    comp: "vs $0 (no competitor exists)",
     port: "L1",
     sub: "chain.nfinnite.ai",
     href: "https://chain.nfinnite.ai",
@@ -111,6 +129,8 @@ const services = [
     name: "Ego Chain",
     tagline: "Identity & Reputation Layer",
     desc: "Soulbound DIDs, ZK-proof verification, decentralized reputation. Identity for AI agents and humans.",
+    price: "$49",
+    comp: "vs $150 ENS + Ceramic",
     port: "L2",
     sub: "ego.nfinnite.ai",
     href: "https://ego.nfinnite.ai",
@@ -122,6 +142,8 @@ const services = [
     name: "Nfinny",
     tagline: "AI Autonomous Business Operator",
     desc: "7 intelligence engines — observe, interpret, decide, act, evaluate, evolve. Runs your business on autopilot.",
+    price: "$299",
+    comp: "vs $0 (no competitor exists)",
     port: "AI OS",
     sub: "nfinny.nfinnite.ai",
     href: "#",
@@ -246,6 +268,28 @@ export default function Home() {
             <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Every Service, Independent</h2>
             <p className="mx-auto mt-4 max-w-2xl text-zinc-400">Each service runs its own ML stack entirely on your hardware. No cloud dependency. No data leakage. Deploy individually or combine for full power.</p>
           </div>
+          <div className="mb-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="rounded-xl border border-white/5 bg-[#12121a] p-4">
+              <div className="text-xs text-zinc-500 uppercase mb-1">Standalone Total</div>
+              <div className="text-2xl font-bold text-white">$1,689<small className="text-sm text-zinc-500">/mo</small></div>
+              <div className="text-xs text-zinc-600 mt-1">If bought individually</div>
+            </div>
+            <div className="rounded-xl border border-aion/20 bg-aion/[0.03] p-4">
+              <div className="text-xs text-zinc-500 uppercase mb-1">Aion Complete</div>
+              <div className="text-2xl font-bold text-aion-light">$1,499<small className="text-sm text-zinc-500">/mo</small></div>
+              <div className="text-xs text-green-400 mt-1">Save $190/mo (11%)</div>
+            </div>
+            <div className="rounded-xl border border-white/5 bg-[#12121a] p-4">
+              <div className="text-xs text-zinc-500 uppercase mb-1">Aion Perpetual</div>
+              <div className="text-2xl font-bold text-green-400">$49,999</div>
+              <div className="text-xs text-zinc-600 mt-1">One-time · Own forever</div>
+            </div>
+            <div className="rounded-xl border border-yellow-400/20 bg-yellow-400/[0.03] p-4">
+              <div className="text-xs text-zinc-500 uppercase mb-1">Groq Enterprise</div>
+              <div className="text-2xl font-bold text-yellow-400">$198,000</div>
+              <div className="text-xs text-zinc-600 mt-1">For extra API calls only</div>
+            </div>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {services.map((s) => (
               <a key={s.id} href={s.href} className="group relative overflow-hidden rounded-xl border border-white/5 bg-[#12121a] p-6 transition-all hover:border-aion/30 hover:bg-aion/[0.03]">
@@ -258,6 +302,10 @@ export default function Home() {
                   </div>
                   <p className="mt-0.5 text-xs font-medium text-aion-light">{s.tagline}</p>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-400">{s.desc}</p>
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="text-base font-bold text-white">{s.price}<span className="text-xs font-normal text-zinc-500">/mo</span></span>
+                    <span className="text-[10px] text-zinc-600 text-right max-w-[140px] leading-tight">{s.comp}</span>
+                  </div>
                   <p className="mt-2 text-xs text-zinc-600 font-mono">{s.sub}</p>
                 </div>
               </a>
