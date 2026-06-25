@@ -179,6 +179,7 @@ export default function Home() {
             <a href="#services" className="text-zinc-400 transition hover:text-white">Services</a>
             <a href="/axis/" className="text-zinc-400 transition hover:text-white">Axis Live</a>
             <a href="/status/" className="text-zinc-400 transition hover:text-white">Status</a>
+            <a href="/tokens/" className="text-zinc-400 transition hover:text-white">Tokens</a>
             <a href="#benchmarks" className="text-zinc-400 transition hover:text-white">Benchmarks</a>
             <a href="#comparison" className="text-zinc-400 transition hover:text-white">Comparison</a>
             <a href="#gallery" className="text-zinc-400 transition hover:text-white">Gallery</a>
