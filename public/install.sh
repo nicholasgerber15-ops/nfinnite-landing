@@ -1,126 +1,81 @@
 #!/bin/bash
-# Aion Omni — One-Click Installer
-# curl -fsSL https://nfinnite.ai/install.sh | bash
+# aion-deploy.sh — One-command deploy for Contabo/Hetzner
+# curl -sL https://nfinnite.ai/install.sh | bash
 set -e
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+echo "╔════════════════════════════════════════╗"
+echo "║   ⟁ AION OMNI — PROVISION            ║"
+echo "║   Janus + Vision + DeepSeek + Stack  ║"
+echo "╚════════════════════════════════════════╝"
 
-echo -e "${CYAN}"
-echo "  ╔═══════════════════════════════════════╗"
-echo "  ║       ⟁  AION OMNI  INSTALLER        ║"
-echo "  ║   One ecosystem. All your AI tools.   ║"
-echo "  ╚═══════════════════════════════════════╝"
-echo -e "${NC}"
+# ── Prerequisites ──
+apt update && apt upgrade -y
+apt install -y ufw curl git python3-pip 
 
-# ── Check prerequisites ──
-echo -e "${CYAN}🔍 Checking prerequisites...${NC}"
+# ── Firewall ──
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow 22/tcp
+ufw --force enable
 
-command -v node >/dev/null 2>&1 || { echo -e "${RED}✗ Node.js required. Install: brew install node${NC}"; exit 1; }
-echo -e "  ✓ Node.js $(node --version)"
+# Disable swap (privacy)
+swapoff -a
+sed -i '/swap/d' /etc/fstab
 
-command -v npm >/dev/null 2>&1 || { echo -e "${RED}✗ npm required${NC}"; exit 1; }
-echo -e "  ✓ npm $(npm --version)"
+# ── Ollama + Models ──
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull janus:latest &
+ollama pull qwen2.5-vl:7b &
+wait
 
-command -v git >/dev/null 2>&1 || { echo -e "${RED}✗ git required. Install: brew install git${NC}"; exit 1; }
-echo -e "  ✓ git $(git --version)"
+# ── Node.js ──
+curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+apt install -y nodejs
 
-if command -v python3 >/dev/null 2>&1; then
-  echo -e "  ✓ Python $(python3 --version)"
-fi
+# ── Clone Stack ──
+mkdir -p /opt/aion
+cd /opt/aion
+git clone https://github.com/nicholasgerber15-ops/nfinnite-landing.git sales-site
 
-if command -v ollama >/dev/null 2>&1; then
-  echo -e "  ✓ Ollama (local LLMs available)"
-fi
+# ── STT/TTS ──
+pip3 install openai-whisper --break-system-packages 2>/dev/null &
+pip3 install TTS --break-system-packages 2>/dev/null &
+wait
 
-# ── Clone repos ──
-echo ""
-echo -e "${CYAN}📦 Downloading Aion Omni...${NC}"
+# ── Cloudflare Tunnel ──
+curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared
+chmod +x /usr/local/bin/cloudflared
 
-INSTALL_DIR="$HOME/aion-omni"
-if [ -d "$INSTALL_DIR" ]; then
-  echo -e "  ⚠️  $INSTALL_DIR already exists. Updating..."
-  cd "$INSTALL_DIR" && git pull 2>/dev/null || true
-else
-  git clone --depth 1 https://github.com/nicholasgerber15-ops/nfinnite-landing.git "$INSTALL_DIR" 2>/dev/null || {
-    echo -e "${RED}✗ Could not clone repository. Check internet connection.${NC}"
-    exit 1
-  }
-fi
-
-echo -e "  ✓ Downloaded to $INSTALL_DIR"
-
-# ── Install dependencies ──
-echo ""
-echo -e "${CYAN}📦 Installing dependencies...${NC}"
-cd "$INSTALL_DIR"
-npm install --production 2>/dev/null && echo -e "  ✓ Dependencies installed"
-
-# ── Pull default LLM model ──
-echo ""
-echo -e "${CYAN}🧠 Pulling default AI model (background)...${NC}"
-if command -v ollama >/dev/null 2>&1; then
-  ollama pull llama3.1:8b 2>/dev/null & 
-  echo -e "  ✓ Started download of llama3.1:8b (~4.9GB)"
-else
-  echo -e "  ⚠️  Ollama not found. Install: brew install ollama"
-  echo -e "     Then run: ollama pull llama3.1:8b"
-fi
-
-# ── Build ──
-echo ""
-echo -e "${CYAN}🔨 Building Aion Omni...${NC}"
-npm run build 2>/dev/null && echo -e "  ✓ Build complete"
-
-# ── Setup launchd auto-start (macOS) ──
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  echo ""
-  echo -e "${CYAN}⚙️  Installing auto-start service...${NC}"
-  PLIST="$HOME/Library/LaunchAgents/com.aion.omni.plist"
-  cat > "$PLIST" << EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key>
-  <string>com.aion.omni</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>$(which node)</string>
-    <string>$(which npm)</string>
-    <string>run</string>
-    <string>dev</string>
-  </array>
-  <key>WorkingDirectory</key>
-  <string>$INSTALL_DIR</string>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>KeepAlive</key>
-  <true/>
-</dict>
-</plist>
+# ── Systemd Services ──
+# Sales site
+cat > /etc/systemd/system/aion-sales.service << 'EOF'
+[Unit]
+Description=Aion Sales Site
+After=network.target
+[Service]
+WorkingDirectory=/opt/aion/sales-site
+ExecStart=/usr/bin/npx serve out -l 3099 -s
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
 EOF
-  launchctl load "$PLIST" 2>/dev/null && echo -e "  ✓ Auto-start installed"
-fi
 
-# ── Done ──
+systemctl daemon-reload
+systemctl enable --now ollama aion-sales 2>/dev/null
+
+# ── Status ──
+IP=$(curl -s ifconfig.me)
 echo ""
-echo -e "${GREEN}╔═══════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║     ✅ AION OMNI INSTALLED           ║${NC}"
-echo -e "${GREEN}╚═══════════════════════════════════════╝${NC}"
+echo "╔════════════════════════════════════════╗"
+echo "║   ✅ AION OMNI — DEPLOYED             ║"
+echo "╚════════════════════════════════════════╝"
 echo ""
-echo -e "  📁  Location:  ${CYAN}$INSTALL_DIR${NC}"
-echo -e "  🌐  Dashboard: ${CYAN}http://localhost:3099${NC}"
-echo -e "  📖  Docs:      ${CYAN}https://nfinnite.ai/docs${NC}"
+echo "  🌐 Sales:       http://$IP:3099"
+echo "  🧠 Janus:       ollama run janus"
+echo "  👁️  Vision:      qwen2.5-vl:7b (auto-routed)"
+echo "  🎤 STT:         Whisper"
+echo "  🔊 TTS:         Coqui"
 echo ""
-echo -e "  ${CYAN}Quick start:${NC}"
-echo -e "    cd $INSTALL_DIR && npm run dev"
-echo ""
-echo -e "  ${CYAN}Next steps:${NC}"
-echo -e "    1. Open http://localhost:3099"
-echo -e "    2. Complete the onboarding wizard"
-echo -e "    3. Connect your services"
-echo -e "    4. Deploy Nfinny for autonomous operation"
-echo ""
+echo "  Next: cloudflared tunnel login → copy config"
+echo "  Then your Mac can sleep — Aion runs here."
